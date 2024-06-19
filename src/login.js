@@ -41,7 +41,7 @@ function printQRCode(base64Data) {
  * @param {path} localStoragePath 要保存的localStorage路径-JSON格式
  * @returns 
  */
-exports.loginBilibili = (cookiePath = './myCookie.JSON',localStoragePath = './myStorage.json') => {
+export const loginBilibili = (cookiePath = './myCookie.JSON',localStoragePath = './myStorage.json') => {
     return new Promise(async (resolve, reject) => {
         const browser = await puppeteer.launch({
             args: ['--no-sandbox'],
@@ -96,5 +96,3 @@ exports.loginBilibili = (cookiePath = './myCookie.JSON',localStoragePath = './my
         resolve('成功')
     })
 }
-
-

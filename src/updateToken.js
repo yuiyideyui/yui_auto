@@ -17,7 +17,7 @@ function sleep(time) {
  * @returns 
  */
 
-exports.updateToken = (cookiePath = './myCookie.JSON' ,localStoragePath = './myStorage.json') => {
+export const updateToken = (cookiePath = './myCookie.JSON' ,localStoragePath = './myStorage.json') => {
     return new Promise(async (resolve, reject) => {
         const browser = await puppeteer.launch({
             args: ['--no-sandbox'],
