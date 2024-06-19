@@ -26,6 +26,7 @@ function waitForEnter() {
 }
 
 
+
 // 打印二维码
 function printQRCode(base64Data) {
   qrcode.generate(base64Data, { small: true }, (qrcode) => {
