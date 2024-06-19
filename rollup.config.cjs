@@ -3,7 +3,7 @@
 module.exports={
     input: 'src/main.js',
     output: {
-        file: 'bundle.js',
+        file: 'index.js',
         format: 'cjs'
     },
 };
