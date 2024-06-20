@@ -1,6 +1,6 @@
 {
   "name": "yui_auto_bili",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "bili登录获取token和自动更新token",
   "main": "index.js",
   "scripts": {
