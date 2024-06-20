@@ -13,5 +13,9 @@
     "qrcode-terminal": "^0.12.0",
     "rollup": "^4.18.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:yuiyideyui/yui_auto.git"
+  },
   "keywords": []
 }
