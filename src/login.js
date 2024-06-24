@@ -19,7 +19,7 @@ const rl = readline.createInterface({
 function waitForEnter() {
 	return new Promise((resolve) => {
 		rl.question('扫码上面的链接,成功后请按回车', () => {
-			console.log('回车了噢。。。等待5秒钟后方可结束yes');
+			console.log('回车了噢。。。等待5秒钟后方可结束yes--后面的报错不用管');
 			resolve();
 		});
 	});
