@@ -14,24 +14,41 @@ function sleep(time) {
  * 
  * @param {path} cookiePath 账号cookie的地址
  * @param {path} localStoragePath 账号localStoragePath的地址
+ * @param {path} executablePath 浏览器路径--chromium--linux必须要配置这个
  * @returns 
  */
 
-export const updateToken = (cookiePath = './myCookie.JSON' ,localStoragePath = './myStorage.json') => {
+export const updateToken = (cookiePath = './myCookie.JSON' ,localStoragePath = './myStorage.json',executablePath='') => {
     return new Promise(async (resolve, reject) => {
-        const browser = await puppeteer.launch({
-            args: ['--no-sandbox'],
-            executablePath: '/usr/bin/google-chrome-stable',
-            defaultViewport: { width: 1920, height: 1080 },
-            // args: ['--start-maximized'],
-            //executablePath: browserPath,
-            // defaultViewport:{
-            //     width:1920,
-            //     height:1080
-            // },
-            headless: 'new',
-            //headless: false,
-        })
+        let browser = '';
+		if (executablePath) {
+			browser = await puppeteer.launch({
+				args: ['--no-sandbox'],
+				executablePath: executablePath,
+				defaultViewport: { width: 1920, height: 1080 },
+				//            args: ['--start-maximized'],
+				//            executablePath: browserPath,
+				// defaultViewport:{
+				//     width:1920,
+				//     height:1080
+				// },
+				headless: 'new'
+				//            headless: false,
+			});
+		} else {
+			browser = await puppeteer.launch({
+				args: ['--no-sandbox'],
+				defaultViewport: { width: 1920, height: 1080 },
+				//            args: ['--start-maximized'],
+				//            executablePath: browserPath,
+				// defaultViewport:{
+				//     width:1920,
+				//     height:1080
+				// },
+				headless: 'new'
+				//            headless: false,
+			});
+		}
         const cookiesString = fs.readFileSync(cookiePath);
         const cookies = JSON.parse(cookiesString);
 
