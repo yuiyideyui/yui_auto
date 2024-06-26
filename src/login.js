@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const readline = require('readline');
 const fs = require('fs');
 const qrcode = require('qrcode-terminal');
+const inquirer = require('inquirer');
 function sleep(time) {
 	return new Promise((resolve) => {
 		setTimeout(() => {
@@ -18,7 +19,7 @@ const rl = readline.createInterface({
 
 function waitForEnter() {
 	return new Promise((resolve) => {
-		rl.question('扫码上面的链接,成功后请按回车', () => {
+		rl.question('成功后请按回车', () => {
 			console.log('回车了噢。。。等待5秒钟后方可结束yes--后面的报错不用管');
 			resolve();
 		});
@@ -39,7 +40,11 @@ function printQRCode(base64Data) {
  * @param {path} executablePath 浏览器路径--chromium--linux必须要配置这个
  * @returns
  */
-export const loginBilibili = (cookiePath = './myCookie.JSON', localStoragePath = './myStorage.json',executablePath='') => {
+export const loginBilibili = (
+	cookiePath = './myCookie.JSON',
+	localStoragePath = './myStorage.json',
+	executablePath = ''
+) => {
 	return new Promise(async (resolve, reject) => {
 		let browser = '';
 		if (executablePath) {
@@ -86,13 +91,38 @@ export const loginBilibili = (cookiePath = './myCookie.JSON', localStoragePath =
 		await page.goto('https://passport.bilibili.com/login');
 		await sleep(1000);
 		const data = await finalResponse;
-		//生成二维码
-		printQRCode(JSON.parse(data).data.url);
-		console.log('手机复制打开扫描此链接也可以', JSON.parse(data).data.url);
-		// await page.screenshot({ type: 'webp', quality: 50, path: './base.webp' });
-		// console.log('或者打开此链接也可以：', __dirname + '/base.webp');
-		await waitForEnter();
+		
+        const answers = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'type',
+                message: '选着什么方式登录',
+                default: 'code',
+                choices: [
+                    { name: '二维码', value: 'code' },
+                    { name: 'Url连接', value: 'url' },
+                ]
+            }
+        ])
+        if(answers.type === 'code'){
+            //生成二维码
+            printQRCode(JSON.parse(data).data.url);
+        }else if(answers.type === 'url'){
+            console.log('手机复制打开此链接-结束后按回车\n', JSON.parse(data).data.url);
+        }
+		await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'type',
+                message: '登录完成',
+                default: 'yes',
+                choices: [
+                    { name: 'yes', value: 'yes' },                
+                ]
+            }
+        ]);
 		//        await sleep(5000)
+        await sleep(2000);
 		await page.goto('https://www.bilibili.com/');
 		await sleep(2000);
 		const getcookies = await page.cookies();
@@ -109,7 +139,8 @@ export const loginBilibili = (cookiePath = './myCookie.JSON', localStoragePath =
 			return Promise.resolve(obj);
 		});
 		fs.writeFileSync(localStoragePath, JSON.stringify(obj));
-		await sleep(1000);
+		await sleep(2000);
+        await page.close();
 		await browser.close();
 		resolve('成功');
 	});
