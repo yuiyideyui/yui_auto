@@ -1,6 +1,6 @@
 {
   "name": "yui_auto_bili",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "bili登录获取token和自动更新token",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,5 @@
     "type": "git",
     "url": "git@github.com:yuiyideyui/yui_auto.git"
   },
-  "keywords": []
+  "keywords": ['puppteer','bilibili','自动化登录','自动化更新Token']
 }
